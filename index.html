@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dhaka Holiday — Automated Invoice</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="loginScreen" class="screen">
+    <div class="login-card">
+      <div class="brand-mark">DH</div>
+      <h1>DHAKA <span>HOLIDAY</span></h1>
+      <p>Automated Invoice & Money Receipt</p>
+      <form id="loginForm">
+        <input id="email" type="email" placeholder="Admin email" required />
+        <input id="password" type="password" placeholder="Password" required />
+        <button class="primary" type="submit">Admin Login</button>
+      </form>
+      <small id="loginMsg"></small>
+    </div>
+  </div>
+
+  <div id="app" class="hidden">
+    <aside class="sidebar">
+      <div class="side-brand"><b>DHAKA</b><strong>HOLIDAY</strong><small>INVOICE ADMIN</small></div>
+      <button class="nav active" data-view="dashboard">Dashboard</button>
+      <button class="nav" data-view="create">Create Receipt</button>
+      <button class="nav" data-view="history">Receipt History</button>
+      <button class="nav" data-view="settings">Company Settings</button>
+      <button id="logoutBtn" class="nav logout">Logout</button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><h2 id="pageTitle">Dashboard</h2><span id="statusDot">● Online</span></div>
+        <button class="primary" id="quickCreate">+ New Receipt</button>
+      </header>
+
+      <section id="dashboard" class="view">
+        <div class="cards">
+          <div class="stat"><span>Total Receipts</span><b id="statCount">0</b></div>
+          <div class="stat"><span>Total Collected</span><b id="statTotal">BDT 0</b></div>
+          <div class="stat"><span>This Month</span><b id="statMonth">BDT 0</b></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Recent Receipts</h3><button class="ghost" id="dashboardHistory">View all</button></div>
+          <div id="recentTable"></div>
+        </div>
+      </section>
+
+      <section id="create" class="view hidden">
+        <div class="workspace">
+          <div class="form-panel panel">
+            <div class="panel-head"><h3 id="formHeading">Create Money Receipt</h3><button class="ghost" id="resetForm">Reset</button></div>
+            <form id="receiptForm">
+              <div class="grid2">
+                <label>Receipt No<input id="receiptNo" required /></label>
+                <label>Date<input id="receiptDate" type="date" required /></label>
+              </div>
+              <h4>Received From</h4>
+              <label>Name<input id="customerName" required /></label>
+              <label>Contact No<input id="customerPhone" /></label>
+              <label>Address<textarea id="customerAddress" rows="2"></textarea></label>
+
+              <div class="items-head"><h4>Particulars</h4><button type="button" class="ghost" id="addItem">+ Add item</button></div>
+              <div id="items"></div>
+
+              <label>Amount in Words<input id="amountWords" /></label>
+              <h4>Payment Mode</h4>
+              <div class="checks">
+                <label><input type="checkbox" name="pay" value="Cash"> Cash</label>
+                <label><input type="checkbox" name="pay" value="Bank Transfer"> Bank Transfer</label>
+                <label><input type="checkbox" name="pay" value="Card"> Card</label>
+                <label><input type="checkbox" name="pay" value="Others"> Others</label>
+              </div>
+              <div class="form-actions">
+                <button class="primary" type="submit">Save Receipt</button>
+                <button class="secondary" type="button" id="printBtn">Print / Save PDF</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="preview-panel">
+            <div class="preview-toolbar"><b>Live Preview</b><button class="secondary" id="printPreview">Print</button></div>
+            <div id="receiptPreview" class="receipt-paper"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="history" class="view hidden">
+        <div class="panel">
+          <div class="panel-head"><h3>Receipt History</h3><input class="search" id="search" placeholder="Search name / receipt no." /></div>
+          <div id="historyTable"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="view hidden">
+        <div class="panel settings">
+          <div class="panel-head"><h3>Company Settings</h3></div>
+          <form id="settingsForm">
+            <label>Company Name<input id="setCompany" value="Dhaka Holiday"></label>
+            <label>Phone Numbers<input id="setPhone" value="01901168410 | 01847801410"></label>
+            <label>Office Address<textarea id="setAddress" rows="3">Dhaka Holiday, 68-69 Concept Tower, Lift 3 (4th Floor), Panthapath Signal, Green Road, Dhaka-1205</textarea></label>
+            <label>Footer Message<textarea id="setFooter" rows="2">Thank you for choosing Dhaka Holiday. We wish you a pleasant journey.</textarea></label>
+            <button class="primary" type="submit">Save Settings</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
